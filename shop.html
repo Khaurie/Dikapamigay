@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Pet Shop</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="container">
+            <h1 class="logo">Modern Pet Shop</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Shop Section -->
+    <section class="shop-section">
+        <div class="container">
+            <h1>Shop for Pet Accessories</h1>
+            <div class="product-grid">
+                <?php
+                include 'db.php';
+                $result = $conn->query("SELECT * FROM products");
+                while ($row = $result->fetch_assoc()) {
+                    echo "<div class='product-card'>";
+                    echo "<img src='assets/images/" . $row['image'] . "' alt='" . $row['product_name'] . "'>";
+                    echo "<h2>" . $row['product_name'] . "</h2>";
+                    echo "<p>" . $row['description'] . "</p>";
+                    echo "<p class='price'>Price: $" . $row['price'] . "</p>";
+                    echo "<form method='POST' action='order.php'>";
+                    echo "<input type='hidden' name='product_id' value='" . $row['id'] . "'>";
+                    echo "<input type='number' name='quantity' min='1' max='" . $row['stock'] . "' placeholder='Quantity' required>";
+                    echo "<button type='submit' class='order-btn'>Order Now</button>";
+                    echo "</form>";
+                    echo "</div>";
+                }
+                ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Sasa Pet Shop | All Rights Reserved</p>
+        </div>
+    </footer>
+</body>
+</html>
